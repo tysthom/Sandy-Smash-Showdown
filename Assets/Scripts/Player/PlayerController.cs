@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         playerControls.Disable();
 
-        serveAction.performed -= ctx => StartCoroutine(Serve());
+        serveAction.performed -= ctx => StartCoroutine(ServeToss());
         jumpAction.performed -= ctx => StartCoroutine(Jump());
         spikeAction.performed -= ctx => StartCoroutine(Spike());
         bumpAction.performed -= ctx => StartCoroutine(Bump());
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        serveAction.performed += _ => StartCoroutine(Serve());
+        serveAction.performed += _ => StartCoroutine(ServeToss());
         jumpAction.performed += _ => StartCoroutine(Jump());
         spikeAction.performed += _ => StartCoroutine(Spike());
         bumpAction.performed += _ => StartCoroutine(Bump());
@@ -102,12 +102,12 @@ public class PlayerController : MonoBehaviour
         athleteStatusReference.lockedIn = LockedIn();
 
         if (!athleteStatusReference.lockedIn && !athleteStatusReference.isRecovering && !athleteStatusReference.isDigging 
-            && !athleteStatusReference.isServing)
+            && !athleteStatusReference.isServing && !athleteStatusReference.isJumping)
         {
             MovePlayer();
         }
         else if(athleteStatusReference.lockedIn && !athleteStatusReference.isServing && !athleteStatusReference.isBumping && !athleteStatusReference.isDigging 
-            && !athleteStatusReference.isSetting && !athleteStatusReference.isSpiking && !athleteStatusReference.isRecovering )
+            && !athleteStatusReference.isSetting && !athleteStatusReference.isSpiking && !athleteStatusReference.isRecovering && !athleteStatusReference.isJumping)
         {
             anim.SetInteger("State", 0);
         }
@@ -136,7 +136,10 @@ public class PlayerController : MonoBehaviour
                 {
                     anim.SetInteger("State", 6);
                 }
-                
+            }
+            else if (athleteStatusReference.isJumping)
+            {
+                anim.SetInteger("State", 7);
             }
         }
     }
@@ -182,30 +185,38 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveDirection = moveAction.ReadValue<Vector2>();
         
-        if (!athleteStatusReference.canServe && !inAir)
+        if(moveDirection.magnitude > .5f)
         {
-            Vector3 targetDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
-            transform.position += targetDirection * speed * Time.deltaTime;
-
-            Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
-            if (targetDirection != Vector3.zero)
+            if (!athleteStatusReference.canServe && !inAir)
             {
-                targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-                anim.SetInteger("State", 1);
+                Vector3 targetDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
+                transform.position += targetDirection * speed * Time.deltaTime;
+
+                Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+                if (targetDirection != Vector3.zero)
+                {
+                    targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+                    anim.SetInteger("State", 1);
+                }
+                else
+                {
+                    anim.SetInteger("State", 0);
+                }
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
             }
             else
             {
-                anim.SetInteger("State", 0);
+                Vector3 targetDirection = new Vector3(moveDirection.x, 0, Mathf.Abs(moveDirection.y));
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+                athleteStatusReference.servePoint.transform.rotation = Quaternion.Slerp(athleteStatusReference.servePoint.transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
             }
- 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
         }
         else
         {
-            Vector3 targetDirection = new Vector3(moveDirection.x, 0, Mathf.Abs(moveDirection.y));
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-            athleteStatusReference.servePoint.transform.rotation = Quaternion.Slerp(athleteStatusReference.servePoint.transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-        }
+            anim.SetInteger("State", 0);
+            LockRotation();
+        }   
     }
 
     public void UpdateNextMoveIndicators()
@@ -242,9 +253,18 @@ public class PlayerController : MonoBehaviour
         //Ball was blocked and landing on Player's court
         else if (ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && ballMovementInstance.owner != gameObject && ballPredictionInstance.predictionMarker.transform.position.z < 0)
         {
-            nextMoveDynamicText.text = "BUMP/DIG";
-            ballPredictionInstance.predictionMarker.GetComponent<Renderer>().material.color = gameManagerInstance.playerColor;
-            canDig = canBump = true;
+            //Needs Work
+            if(athleteStatusReference.teamMate.GetComponent<AthleteStatus>().role == AthleteStatus.roles.recieving)
+            {
+                nextMoveDynamicText.text = "";
+            }
+            else
+            {
+                nextMoveDynamicText.text = "BUMP/DIG";
+                ballPredictionInstance.predictionMarker.GetComponent<Renderer>().material.color = gameManagerInstance.playerColor;
+                canDig = canBump = true;
+            }
+            
         }
         //Opponents set ball
         else if (ballMovementInstance.mostRecentAttack == BallMovement.attacks.set && ballMovementInstance.owner.GetComponent<AthleteStatus>().team != athleteStatusReference.team)
@@ -302,27 +322,54 @@ public class PlayerController : MonoBehaviour
         canSpike = false;
     }
 
-    IEnumerator Serve()
+    IEnumerator ServeToss()
     {
         if (athleteStatusReference.canServe)
         {
-            Vector2 moveDirection = moveAction.ReadValue<Vector2>();
-
             athleteStatusReference.canServe = false;
             athleteStatusReference.isServing = true;
             athleteStatusReference.teamMate.GetComponent<AINavigation>().primedToBlock = true;
 
-            yield return new WaitForSeconds(.1f); //Serve buffer
-
+            anim.speed = 1;
+            anim.SetInteger("State", 8);
             ballMovementInstance.rb.isKinematic = false;
-            ballMovementInstance.Force(moveDirection.x * gameManagerInstance.serveHorizontalMultiplier, gameManagerInstance.serveHeightForce,
-                gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
+            ballMovementInstance.Force(gameManagerInstance.tossHorizontalMultiplier, gameManagerInstance.tossHeightForce,
+                gameManagerInstance.tossForwardForce, BallMovement.attacks.toss, gameObject);
 
-            yield return new WaitForSeconds(.5f);
-            athleteStatusReference.isServing = false;
-            athleteStatusReference.lockedIn = false;
-            ballMovementInstance.beingServed = false;
+            yield return new WaitForSeconds(.85f);
+
+            //JUMP
+            inAir = true;
+            athleteStatusReference.isJumping = true;
+            rb.isKinematic = false;
+
+            rb.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+
+            anim.SetInteger("State", 5);
+            yield return new WaitForSeconds(.65f);
+            anim.SetInteger("State", 6);
+            StartCoroutine(Serve());
+            yield return new WaitForSeconds(.8f);
+            inAir = false;
+            athleteStatusReference.isJumping = false;
+            athleteStatusReference.canServe = false;
         }
+    }
+
+    IEnumerator Serve()
+    {
+        Vector2 moveDirection = moveAction.ReadValue<Vector2>();
+
+        yield return new WaitForSeconds(.1f); //Serve buffer
+
+        ballMovementInstance.Force(moveDirection.x * gameManagerInstance.serveHorizontalMultiplier, gameManagerInstance.serveHeightForce,
+            gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
+
+        yield return new WaitForSeconds(.5f);
+        athleteStatusReference.isServing = false;
+        athleteStatusReference.lockedIn = false;
+        ballMovementInstance.ballInPlay = true;
+        ballMovementInstance.beingServed = false;
     }
 
     IEnumerator Dig()
@@ -385,7 +432,7 @@ public class PlayerController : MonoBehaviour
                 athleteStatusReference.isBumping = true;
 
                 float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
-                float horizontalMultiplier = (Mathf.Abs(transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.5f, 1.25f);
+                float horizontalMultiplier = (Mathf.Abs(transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.85f, 1.25f);
 
                 ballMovementInstance.Force(moveDirection.x * gameManagerInstance.bumpHorizontalMultiplier * horizontalMultiplier, 
                     gameManagerInstance.bumpHeightForce, 
@@ -410,7 +457,7 @@ public class PlayerController : MonoBehaviour
                 athleteStatusReference.isSetting = true;
 
                 float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
-                float horizontalMultiplier = (Mathf.Abs(transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.5f, 1.25f);
+                float horizontalMultiplier = (Mathf.Abs(transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.85f, 1.25f);
 
                 ballMovementInstance.Force(moveDirection.x * gameManagerInstance.setHorizontalMultiplier * horizontalMultiplier,
                     gameManagerInstance.setHeightForce,
@@ -427,19 +474,20 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Jump()
     {
-        if (!inAir && !athleteStatusReference.isServing && ballMovementInstance.ballInPlay)
+        if ((!inAir && !athleteStatusReference.isServing && ballMovementInstance.ballInPlay))
         {
             inAir = true;
+            athleteStatusReference.isJumping = true;
             rb.isKinematic = false;
 
+            rb.velocity = Vector3.zero;
             rb.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
 
             if(canSpike)
             {
-                athleteStatusReference.isSpiking = true;
-                
+                athleteStatusReference.isSpiking = true;     
             }
-            else
+            else if(!athleteStatusReference.isServing)
             {
                 athleteStatusReference.blockBoundary.SetActive(true);
             }
@@ -451,6 +499,7 @@ public class PlayerController : MonoBehaviour
             athleteStatusReference.blockBoundary.SetActive(false);
             rb.isKinematic = true;
             inAir = false;
+            athleteStatusReference.isJumping = false;
         }
     }
 
@@ -459,7 +508,7 @@ public class PlayerController : MonoBehaviour
         if (inAir && athleteStatusReference.isSpiking && !athleteStatusReference.canServe && athleteStatusReference.lockedIn && ballMovementInstance.owner != gameObject)
         { 
             Vector2 moveDirection = moveAction.ReadValue<Vector2>();
-            if (Vector3.Distance(athleteStatusReference.spikePoint.transform.position, ball.transform.position) < hitRange) //Player has successfully reached ball
+            if (Vector3.Distance(athleteStatusReference.spikePoint.transform.position, ball.transform.position) < (hitRange - .5f)) //Player has successfully reached ball
             {
                 ballMovementInstance.Force(moveDirection.x * gameManagerInstance.spikeHorizontalMultiplier, gameManagerInstance.spikeHeightForce,
                         gameManagerInstance.spikeForwardForce, BallMovement.attacks.spike, gameObject);

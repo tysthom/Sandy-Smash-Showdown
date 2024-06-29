@@ -42,6 +42,7 @@ public class AthleteStatus : MonoBehaviour
      * 5 - Jump Pre Spike
      * 6 - Jump Post Spike
      * 7 - Block
+     * 8 - Serve Throw
      * 
      */
     

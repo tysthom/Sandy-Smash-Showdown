@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
     public float hitRange = 2;
     public float hitMultiplier = 7;
 
+    [Header("Toss Stats")]
+    public float tossHorizontalMultiplier = 0;
+    public float tossHeightForce = 100;
+    public float tossForwardForce = 0;
+
     [Header("Serve Stats")]
     public float serveHorizontalMultiplier = 75;
     public float serveHeightForce = 100;
@@ -74,6 +79,15 @@ public class GameManager : MonoBehaviour
             if (servingAthlete == serveAthlete.athlete1)
             {
                 athletes[0].GetComponent<AthleteStatus>().canServe = true;
+                if(athletes[0].tag == "Player")
+                {
+                    athletes[0].transform.GetChild(0).GetComponent<Animator>().speed = 0;
+                }
+                else
+                {
+
+                }
+                
                 serverIndex = 0;
                 ball.GetComponent<BallMovement>().owner = athletes[0];
                 //Sets both athletes positions
@@ -84,7 +98,7 @@ public class GameManager : MonoBehaviour
 
                 if (athletes[0].tag != "Player")
                 {
-                    StartCoroutine(athletes[0].GetComponent<AINavigation>().Serve());
+                    StartCoroutine(athletes[0].GetComponent<AINavigation>().ServeToss());
                 }
             }
             else
@@ -97,7 +111,7 @@ public class GameManager : MonoBehaviour
                 athletes[2].transform.position = starterPoints[5].transform.position;
                 athletes[3].transform.position = starterPoints[4].transform.position;
 
-                StartCoroutine(athletes[1].GetComponent<AINavigation>().Serve());
+                StartCoroutine(athletes[1].GetComponent<AINavigation>().ServeToss());
             }
 
         }
@@ -113,7 +127,7 @@ public class GameManager : MonoBehaviour
                 athletes[0].transform.position = starterPoints[2].transform.position;
                 athletes[1].transform.position = starterPoints[3].transform.position;
 
-                StartCoroutine(athletes[2].GetComponent<AINavigation>().Serve());
+                StartCoroutine(athletes[2].GetComponent<AINavigation>().ServeToss());
             }
             else
             {
@@ -125,7 +139,7 @@ public class GameManager : MonoBehaviour
                 athletes[0].transform.position = starterPoints[3].transform.position;
                 athletes[1].transform.position = starterPoints[2].transform.position;
 
-                StartCoroutine(athletes[3].GetComponent<AINavigation>().Serve());
+                StartCoroutine(athletes[3].GetComponent<AINavigation>().ServeToss());
             }
         }
 

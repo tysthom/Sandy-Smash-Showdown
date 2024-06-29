@@ -284,37 +284,71 @@ public class AINavigation : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 15f); // Smooth rotation
     }
 
-    public IEnumerator Serve()
+    public IEnumerator ServeToss()
     {
-        yield return new WaitForSeconds(1);
-
         if (athleteStatusReference.canServe)
         {
+            yield return new WaitForSeconds(.5f); //Serve buffer
+
             athleteStatusReference.canServe = false;
             athleteStatusReference.isServing = true;
 
             yield return new WaitForSeconds(.5f); //Serve buffer
-            athleteStatusReference.isServing = false;
-            athleteStatusReference.lockedIn = false;
-            ballMovementInstance.beingServed = false;
-            ball.transform.rotation = athleteStatusReference.servePoint.transform.rotation;
+
+            anim.speed = 1;
+            anim.SetInteger("State", 8);
             ballMovementInstance.rb.isKinematic = false;
+            ballMovementInstance.Force(gameManagerInstance.tossHorizontalMultiplier, gameManagerInstance.tossHeightForce,
+                gameManagerInstance.tossForwardForce, BallMovement.attacks.toss, gameObject);
 
-            float horizontalMultiplier = Random.Range(0, transform.position.x) * -.17f;
+            yield return new WaitForSeconds(.85f);
 
-            if (athleteStatusReference.team == AthleteStatus.teams.team1)
-            {
-                ballMovementInstance.Force(gameManagerInstance.serveHorizontalMultiplier * horizontalMultiplier, gameManagerInstance.serveHeightForce,
-            gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
-            }
-            else
-            {
-                ballMovementInstance.Force(gameManagerInstance.serveHorizontalMultiplier * horizontalMultiplier, gameManagerInstance.serveHeightForce,
-            -gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
-            }
+            //JUMP
 
-            yield return new WaitForSeconds(.5f);
+            StartCoroutine(Jump());
+
+            /*athleteStatusReference.isJumping = true;
+            rb.isKinematic = false;*/
+
+            //rb.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+
+            anim.SetInteger("State", 5);
+            yield return new WaitForSeconds(.65f);
+            anim.SetInteger("State", 6);
+            
+            athleteStatusReference.canServe = false;
+            StartCoroutine(Serve());
+            yield return new WaitForSeconds(.65f);
+            athleteStatusReference.isJumping = false;
+
+
         }
+    }
+
+    public IEnumerator Serve()
+    {
+        ballMovementInstance.beingServed = false;
+
+        float horizontalMultiplier = Random.Range(0, transform.position.x) * -.17f;
+
+        if (athleteStatusReference.team == AthleteStatus.teams.team1)
+        {
+            ballMovementInstance.Force(gameManagerInstance.serveHorizontalMultiplier * horizontalMultiplier, gameManagerInstance.serveHeightForce,
+        gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
+        }
+        else
+        {
+            ballMovementInstance.Force(gameManagerInstance.serveHorizontalMultiplier * horizontalMultiplier, gameManagerInstance.serveHeightForce,
+        -gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
+        }
+
+        yield return new WaitForSeconds(.5f);
+
+        athleteStatusReference.isServing = false;
+        athleteStatusReference.lockedIn = false;
+        
+        ball.transform.rotation = athleteStatusReference.servePoint.transform.rotation;
+        ballMovementInstance.rb.isKinematic = false;
     }
 
     IEnumerator RunToSetUp()
@@ -419,7 +453,7 @@ public class AINavigation : MonoBehaviour
             if (athleteStatusReference.team == AthleteStatus.teams.team1)
             {
                 float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
-                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.5f, .75f);
+                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.85f, 1.1f);
 
                 ball.GetComponent<BallMovement>().Force(gameManagerInstance.bumpHorizontalMultiplier * horizontalMultiplier * -1, gameManagerInstance.bumpHeightForce,
                  forwardMultiplier * gameManagerInstance.bumpForwardForce, BallMovement.attacks.bump, gameObject);
@@ -427,7 +461,7 @@ public class AINavigation : MonoBehaviour
             else
             {
                 float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
-                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.75f, 1f);
+                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.85f, 1.1f);
 
                 ballMovementInstance.Force(gameManagerInstance.bumpHorizontalMultiplier * horizontalMultiplier * -1, gameManagerInstance.bumpHeightForce,
                  forwardMultiplier * -gameManagerInstance.bumpForwardForce, BallMovement.attacks.bump, gameObject);
@@ -464,7 +498,7 @@ public class AINavigation : MonoBehaviour
             if (athleteStatusReference.team == AthleteStatus.teams.team1)
             {
                 float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
-                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.75f, 1.1f);
+                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.9f, 1.2f);
 
                 ballMovementInstance.Force(gameManagerInstance.setHorizontalMultiplier * horizontalMultiplier * -1, gameManagerInstance.setHeightForce,
                  forwardMultiplier * gameManagerInstance.setForwardForce, BallMovement.attacks.set, gameObject);
@@ -472,7 +506,7 @@ public class AINavigation : MonoBehaviour
             else
             {
                 float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
-                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.75f, 1f);
+                float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.9f, 1.2f);
 
                 ballMovementInstance.Force(gameManagerInstance.setHorizontalMultiplier * horizontalMultiplier * -1, gameManagerInstance.setHeightForce,
                  forwardMultiplier * -gameManagerInstance.setForwardForce, BallMovement.attacks.set, gameObject);
@@ -504,7 +538,7 @@ public class AINavigation : MonoBehaviour
         athleteStatusReference.isSpiking = true;
 
         yield return new WaitUntil(() => (Vector3.Distance(athleteStatusReference.spikePoint.transform.position, ball.transform.position)
-            < 5 && ball.GetComponent<Rigidbody>().velocity.y < 0) || athleteStatusReference.isSpiking == false);
+            < 6 && ball.GetComponent<Rigidbody>().velocity.y < 0) || athleteStatusReference.isSpiking == false);
 
         lerp = false;
         if (athleteStatusReference.isSpiking) StartCoroutine(Jump());
@@ -519,7 +553,16 @@ public class AINavigation : MonoBehaviour
         {
             anim.SetInteger("State", 6);
 
-            float horizontalMultiplier = Random.Range(0, transform.position.x) * -.35f;
+            float posXBound = 8.1f;
+            float negXBound = -posXBound;
+
+            float posHorMultiplier = (posXBound - transform.position.x);
+
+            float negHorMultiplier = (negXBound - transform.position.x);
+
+            /*float horizontalMultiplier = Random.Range(0, transform.position.x) * -.35f; //Negative to hit the other way*/
+            float horizontalMultiplier = Random.Range(negHorMultiplier, posHorMultiplier) * .15f;
+            Debug.Log(horizontalMultiplier);
 
             if (athleteStatusReference.team == AthleteStatus.teams.team1)
             {
@@ -546,7 +589,7 @@ public class AINavigation : MonoBehaviour
         athleteStatusReference.isBlocking = true;
 
         yield return new WaitUntil(() => Vector3.Distance(athleteStatusReference.servePoint.transform.position, ball.transform.position)
-            < 6 || athleteStatusReference.isBlocking == false);
+            < 7 || athleteStatusReference.isBlocking == false);
 
         anim.SetInteger("State", 7);
 

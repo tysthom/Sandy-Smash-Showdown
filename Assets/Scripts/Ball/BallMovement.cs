@@ -11,7 +11,7 @@ public class BallMovement : MonoBehaviour
     public GameObject owner;
 
     public int numOfHits = 3;
-    public enum attacks {serve, dig, bump, set, spike, block};
+    public enum attacks {toss, serve, dig, bump, set, spike, block};
     public attacks mostRecentAttack;
     public bool ballInPlay;
     public bool beingServed;
@@ -49,7 +49,7 @@ public class BallMovement : MonoBehaviour
         rb.velocity = Vector3.zero;
         mostRecentAttack = recent;
 
-        if (numOfHits >= 3 && !(mostRecentAttack == attacks.block || mostRecentAttack == attacks.serve))
+        if (numOfHits >= 3 && !(mostRecentAttack == attacks.block || mostRecentAttack == attacks.toss || mostRecentAttack == attacks.serve))
         {
             numOfHits = 1;
         }
@@ -59,7 +59,10 @@ public class BallMovement : MonoBehaviour
         }
         owner = newOwner;
         rb.AddForce(new Vector3(hor, ver, frwd) * gameManagerInstance.hitMultiplier);
-        StartCoroutine(Predict());
+        if (mostRecentAttack != attacks.toss)
+        {
+            StartCoroutine(Predict());
+        }
     }
 
     IEnumerator Predict()

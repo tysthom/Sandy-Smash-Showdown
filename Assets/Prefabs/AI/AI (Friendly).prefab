@@ -288,10 +288,10 @@ MonoBehaviour:
   team: 0
   role: 0
   servePoint: {fileID: 162869323229496790}
-  digPosition: {fileID: 0}
-  bumpPosition: {fileID: 0}
-  setPosition: {fileID: 0}
-  spikePosition: {fileID: 0}
+  digPoint: {fileID: 2650054561758280383}
+  bumpPoint: {fileID: 6154320020162921955}
+  setPoint: {fileID: 3019576178516669835}
+  spikePoint: {fileID: 5433791769877306328}
   teamMate: {fileID: 0}
   netBounds: {fileID: 0}
   blockBoundary: {fileID: 8904762666495094578}
@@ -302,7 +302,6 @@ MonoBehaviour:
   isBumping: 0
   isSetting: 0
   isSpiking: 0
-  canDig: 0
   isDigging: 0
   isBlocking: 0
   isRecovering: 0
@@ -343,8 +342,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   athleteStatusReference: {fileID: 0}
   destination: {fileID: 0}
-  isIdle: 0
-  isRunning: 0
+  primedToBlock: 0
 --- !u!54 &4974369778686996848
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -401,8 +399,8 @@ Transform:
   m_GameObject: {fileID: 8904762666495094578}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1.25}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6376115517277878561}

@@ -13,6 +13,8 @@ public class BallPrediction : MonoBehaviour
     GameManager gameManagerInstance;
     public LayerMask groundLayerMask;
 
+    private float targetY = 5;
+
     private void Start()
     {
         gameManagerInstance = GetComponent<BallMovement>().gameManager.GetComponent<GameManager>();
@@ -50,12 +52,28 @@ public class BallPrediction : MonoBehaviour
             // Calculate the next position based on current velocity and time step
             Vector3 nextPosition = currentPosition + currentVelocity * timeStep;
 
-            // Perform raycast from the current position to the next position to check for ground collision
-            if (Physics.Raycast(currentPosition, nextPosition - currentPosition, out hit, Vector3.Distance(currentPosition, nextPosition), groundLayerMask))
+            if (GetComponent<BallMovement>().mostRecentAttack != BallMovement.attacks.set)
             {
-                currentPosition = hit.point;
-                break;
+                // Perform raycast from the current position to the next position to check for ground collision
+                if (Physics.Raycast(currentPosition, nextPosition - currentPosition, out hit, Vector3.Distance(currentPosition, nextPosition), groundLayerMask))
+                {
+                    currentPosition = hit.point;
+                    break;
+                }
             }
+            else
+            {
+                //Used when about to perform a spike to allows the ball and athelte to line up when in the air
+                if (nextPosition.y < targetY)
+                {
+                    // Use a linear interpolation to find a more accurate X and Z at the exact targetY
+                    float t = (targetY - currentPosition.y) / (nextPosition.y - currentPosition.y);
+                    Vector3 targetPosition = Vector3.Lerp(currentPosition, nextPosition, t);
+                    currentPosition = new Vector3(targetPosition.x, targetY, targetPosition.z);
+                    break;
+                }
+            }
+            
 
             currentPosition = nextPosition;
             elapsedTime += timeStep;

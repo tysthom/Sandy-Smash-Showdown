@@ -96,7 +96,8 @@ public class PlayerController : MonoBehaviour
         if(ballMovementInstance.ballInPlay == false)
         {
             ResetHitConstraints();
-            return;
+            LockRotation();
+            nextMoveDynamicText.text = "";
         }
 
         athleteStatusReference.lockedIn = LockedIn();
@@ -123,7 +124,6 @@ public class PlayerController : MonoBehaviour
             }
             else if (athleteStatusReference.isSetting)
             {
-                Debug.Log("SET");
                 anim.SetInteger("State", 4);
             }
             else if (athleteStatusReference.isSpiking)
@@ -142,6 +142,11 @@ public class PlayerController : MonoBehaviour
                 anim.SetInteger("State", 7);
             }
         }
+
+        if(transform.position.z > -2)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+        }
     }
 
     bool LockedIn()
@@ -153,7 +158,8 @@ public class PlayerController : MonoBehaviour
 
         if ((ballPredictionInstance.predictionMarker != null
             && Vector3.Distance(transform.position, ballPredictionInstance.predictionMarker.transform.position) < lockInRange
-            && ballMovementInstance.owner != gameObject) || inAir)
+            && ballMovementInstance.owner != gameObject && athleteStatusReference.teamMate.GetComponent<AthleteStatus>().role != AthleteStatus.roles.recieving) 
+            || inAir)
         {
             if (!inAir)
             {
@@ -185,7 +191,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 moveDirection = moveAction.ReadValue<Vector2>();
         
-        if(moveDirection.magnitude > .5f)
+        if(moveDirection.magnitude > .5f && ballMovementInstance.ballInPlay)
         {
             if (!athleteStatusReference.canServe && !inAir)
             {
@@ -254,7 +260,7 @@ public class PlayerController : MonoBehaviour
         else if (ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && ballMovementInstance.owner != gameObject && ballPredictionInstance.predictionMarker.transform.position.z < 0)
         {
             //Needs Work
-            if(athleteStatusReference.teamMate.GetComponent<AthleteStatus>().role == AthleteStatus.roles.recieving)
+            if(athleteStatusReference.teamMate.GetComponent<AthleteStatus>().role == AthleteStatus.roles.observing && ballMovementInstance.owner != athleteStatusReference.teamMate)
             {
                 nextMoveDynamicText.text = "";
             }

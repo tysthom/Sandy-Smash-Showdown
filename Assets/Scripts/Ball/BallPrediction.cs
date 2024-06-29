@@ -63,8 +63,9 @@ public class BallPrediction : MonoBehaviour
             }
             else
             {
+                //Debug.Log("Elapsed Time: " + elapsedTime);
                 //Used when about to perform a spike to allows the ball and athelte to line up when in the air
-                if (nextPosition.y < targetY)
+                if (nextPosition.y < targetY && elapsedTime > 1)
                 {
                     // Use a linear interpolation to find a more accurate X and Z at the exact targetY
                     float t = (targetY - currentPosition.y) / (nextPosition.y - currentPosition.y);

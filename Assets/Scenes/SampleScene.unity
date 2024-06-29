@@ -1449,28 +1449,28 @@ MonoBehaviour:
   - {fileID: 601650005}
   - {fileID: 1797334600}
   serverIndex: 0
-  servingTeam: 0
-  servingAthlete: 1
+  servingTeam: 1
+  servingAthlete: 0
   hitRange: 2.5
   hitMultiplier: 7
   tossHorizontalMultiplier: 0
   tossHeightForce: 100
   tossForwardForce: 0
-  serveHorizontalMultiplier: 40
+  serveHorizontalMultiplier: 80
   serveHeightForce: 30
   serveForwardForce: 120
   digHorizontalMultiplier: 0
-  digHeightForce: 120
+  digHeightForce: 105
   digForwardForce: 5
-  bumpHorizontalMultiplier: 50
-  bumpHeightForce: 115
+  bumpHorizontalMultiplier: 45
+  bumpHeightForce: 100
   bumpForwardForce: 15
-  setHorizontalMultiplier: 55
-  setHeightForce: 100
-  setForwardForce: 15
-  spikeHorizontalMultiplier: 40
-  spikeHeightForce: 15
-  spikeForwardForce: 100
+  setHorizontalMultiplier: 50
+  setHeightForce: 95
+  setForwardForce: 20
+  spikeHorizontalMultiplier: 30
+  spikeHeightForce: 10
+  spikeForwardForce: 110
   blockHorizontalMultiplier: 0
   blockHeightForce: 60
   blockForwardForce: 35
@@ -1648,8 +1648,8 @@ Transform:
   m_GameObject: {fileID: 951281383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.75, z: 1}
+  m_LocalPosition: {x: 0, y: 1.8, z: 0}
+  m_LocalScale: {x: 1.75, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1530529230}
@@ -2441,7 +2441,7 @@ MonoBehaviour:
   gameManager: {fileID: 774755607}
   nextMoveDynamicText: {fileID: 1770104233}
   athleteStatusReference: {fileID: 0}
-  speed: 7
+  speed: 8
   turnSpeed: 15
   hitRange: 0
   lockInRange: 1.45

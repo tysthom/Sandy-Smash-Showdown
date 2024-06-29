@@ -145,16 +145,6 @@ public class AINavigation : MonoBehaviour
             CorrectRotation();
             KeepHorizontalPosition();
         }
-
-        if (lerp)
-        {
-            Vector3 targetPosition = new Vector3(ballPredictionInstance.predictionMarker.transform.position.x, transform.position.y,
-                    ballPredictionInstance.predictionMarker.transform.position.z);
-
-            // Smoothly interpolate to the target position
-            transform.position = Vector3.Lerp(transform.position, targetPosition, 5 * Time.deltaTime);
-        }
-
     }
 
     public void AssignRole()
@@ -233,7 +223,6 @@ public class AINavigation : MonoBehaviour
             {
                 if (!IOwnBall() && ballMovementInstance.ballInPlay)
                 {
-                    lerp = true;
                     if (ballMovementInstance.numOfHits >= 3 && !athleteStatusReference.isBumping)
                     {
                         StartCoroutine(Bump());
@@ -329,7 +318,7 @@ public class AINavigation : MonoBehaviour
     {
         ballMovementInstance.beingServed = false;
 
-        float horizontalMultiplier = Random.Range(0, transform.position.x) * -.17f;
+        float horizontalMultiplier = Random.Range(0, transform.position.x) * -.13f;
 
         if (athleteStatusReference.team == AthleteStatus.teams.team1)
         {
@@ -443,7 +432,6 @@ public class AINavigation : MonoBehaviour
         yield return new WaitUntil(() => (Vector3.Distance(athleteStatusReference.bumpPoint.transform.position, ball.transform.position)
             < 2 && ball.GetComponent<Rigidbody>().velocity.y < 0) || athleteStatusReference.isBumping == false);
 
-        lerp = false;
         if (Vector3.Distance(athleteStatusReference.bumpPoint.transform.position, ball.transform.position)
             < 2 && athleteStatusReference.isBumping && ballMovementInstance.ballInPlay)
         {
@@ -487,7 +475,6 @@ public class AINavigation : MonoBehaviour
         yield return new WaitUntil(() => (Vector3.Distance(athleteStatusReference.setPoint.transform.position, ball.transform.position)
             < 2 && ball.GetComponent<Rigidbody>().velocity.y < 0) || athleteStatusReference.isSetting == false);
 
-        lerp = false;
         if (Vector3.Distance(athleteStatusReference.setPoint.transform.position, ball.transform.position)
             < 2 && athleteStatusReference.isSetting && ballMovementInstance.ballInPlay) 
         {
@@ -497,7 +484,7 @@ public class AINavigation : MonoBehaviour
 
             if (athleteStatusReference.team == AthleteStatus.teams.team1)
             {
-                float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
+                float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.85f, 1);
                 float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.9f, 1.2f);
 
                 ballMovementInstance.Force(gameManagerInstance.setHorizontalMultiplier * horizontalMultiplier * -1, gameManagerInstance.setHeightForce,
@@ -505,7 +492,7 @@ public class AINavigation : MonoBehaviour
             }
             else
             {
-                float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
+                float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.85f, 1);
                 float horizontalMultiplier = ((transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.9f, 1.2f);
 
                 ballMovementInstance.Force(gameManagerInstance.setHorizontalMultiplier * horizontalMultiplier * -1, gameManagerInstance.setHeightForce,
@@ -540,7 +527,6 @@ public class AINavigation : MonoBehaviour
         yield return new WaitUntil(() => (Vector3.Distance(athleteStatusReference.spikePoint.transform.position, ball.transform.position)
             < 6 && ball.GetComponent<Rigidbody>().velocity.y < 0) || athleteStatusReference.isSpiking == false);
 
-        lerp = false;
         if (athleteStatusReference.isSpiking) StartCoroutine(Jump());
         anim.SetInteger("State", 5);
 
@@ -562,7 +548,6 @@ public class AINavigation : MonoBehaviour
 
             /*float horizontalMultiplier = Random.Range(0, transform.position.x) * -.35f; //Negative to hit the other way*/
             float horizontalMultiplier = Random.Range(negHorMultiplier, posHorMultiplier) * .15f;
-            Debug.Log(horizontalMultiplier);
 
             if (athleteStatusReference.team == AthleteStatus.teams.team1)
             {

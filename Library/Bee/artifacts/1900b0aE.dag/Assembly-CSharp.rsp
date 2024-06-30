@@ -363,6 +363,7 @@
 "Assets/Scripts/AI/AINavigation.cs"
 "Assets/Scripts/Ball/BallMovement.cs"
 "Assets/Scripts/Ball/BallPrediction.cs"
+"Assets/Scripts/Mangament/AppearanceManager.cs"
 "Assets/Scripts/Mangament/GameManager.cs"
 "Assets/Scripts/Player/AthleteStatus.cs"
 "Assets/Scripts/Player/PlayerController.cs"

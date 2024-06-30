@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Ball\BallPrediction.cs" />
     <Compile Include="Assets\Scripts\Player\AthleteStatus.cs" />
+    <Compile Include="Assets\Scripts\Mangament\AppearanceManager.cs" />
     <Compile Include="Assets\Scripts\AI\AINavigation.cs" />
     <Compile Include="Assets\Scripts\Mangament\GameManager.cs" />
     <Compile Include="Assets\Input System\PlayerControls.cs" />

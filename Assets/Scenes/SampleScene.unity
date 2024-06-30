@@ -1411,6 +1411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 774755609}
   - component: {fileID: 774755608}
+  - component: {fileID: 774755610}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1468,7 +1469,7 @@ MonoBehaviour:
   setHorizontalMultiplier: 50
   setHeightForce: 95
   setForwardForce: 20
-  spikeHorizontalMultiplier: 30
+  spikeHorizontalMultiplier: 40
   spikeHeightForce: 10
   spikeForwardForce: 110
   blockHorizontalMultiplier: 0
@@ -1490,6 +1491,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &774755610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774755607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4d1cba52a3e7d44f9b71b9dc40fda1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  athletesSkinMesh:
+  - {fileID: 1785527203}
+  skinMaterials:
+  - {fileID: 2100000, guid: cfb1a35928fd0db47a6729af1ed32dee, type: 2}
+  - {fileID: 2100000, guid: 687bc0645ec4a684baacd72d30cb96e3, type: 2}
+  - {fileID: 2100000, guid: 04829bee14842df4abb3b6cf10343efc, type: 2}
+  - {fileID: 2100000, guid: 1ac5183956375e04e89cadfd695b53ee, type: 2}
+  - {fileID: 2100000, guid: fb354d32feae5314197db80ebcdba372, type: 2}
+  athlete1SkinIndex: 2
+  maleOutfits:
+  - {fileID: 7695900576956712696, guid: 317358cee930a08408d6da3ad74730fd, type: 3}
+  athlete1OutfitIndex: 0
 --- !u!1 &890863301
 GameObject:
   m_ObjectHideFlags: 0
@@ -2860,6 +2885,11 @@ CanvasRenderer:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2042339698000628277, guid: bd36082742f4b4d4c978132caa2676cf, type: 3}
   m_PrefabInstance: {fileID: 6654988892319029111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1785527203 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2584794989316978126, guid: 5490dca238c6bfa489c9fe8137dc79e3, type: 3}
+  m_PrefabInstance: {fileID: 2070312149}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1797334600
 GameObject:

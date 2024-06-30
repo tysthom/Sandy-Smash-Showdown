@@ -480,7 +480,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Jump()
     {
-        if ((!inAir && !athleteStatusReference.isServing && ballMovementInstance.ballInPlay))
+        if (!inAir && !athleteStatusReference.isServing && !athleteStatusReference.isDigging && !athleteStatusReference.isBumping 
+            && !athleteStatusReference.isSetting && ballMovementInstance.ballInPlay && !ballMovementInstance.beingServed)
         {
             inAir = true;
             athleteStatusReference.isJumping = true;

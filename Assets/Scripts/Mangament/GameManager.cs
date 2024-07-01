@@ -5,6 +5,10 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameMode { playerVAi, aiVAi };
+    public GameMode gameMode;
+
+    public GameObject athlete1AI;   //AI model for Ai vs Ai mode only
     public GameObject[] athletes;
     
     public GameObject ball;
@@ -66,6 +70,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (gameMode == GameMode.aiVAi)
+        {
+            athlete1AI.SetActive(true);
+            athletes[0].SetActive(false);   //Deactivates player
+            athletes[0] = athlete1AI;
+            
+
+            athletes[1].GetComponent<AthleteStatus>().teamMate = athlete1AI;
+        }
+
         SetUp();
     }
 
@@ -147,7 +161,7 @@ public class GameManager : MonoBehaviour
         ball.GetComponent<BallMovement>().beingServed = true;
         ball.GetComponent<BallMovement>().numOfHits = 5;
 
-        for (int i = 1; i < athletes.Length; i++)
+        for (int i = 0; i < athletes.Length; i++)
         {
             athletes[i].GetComponent<AINavigation>().SetUp();
         }

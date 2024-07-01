@@ -24,7 +24,6 @@ public class AINavigation : MonoBehaviour
     [Header("Stats")]
     bool isIdle;
     bool isRunning;  //True when moving to next position
-    bool lerp;
     public bool primedToBlock;     //Used to override and assign athlete to block next ball if they spiked most recently on their team. ONLY WITH PLAYER TEAMMATE
 
     private Vector3 jumpPosition; //Used to keep the x & z values of the AI's jump the same
@@ -93,7 +92,7 @@ public class AINavigation : MonoBehaviour
 
     void Start()
     {
-        SetUp();
+        //SetUp();
     }
 
     public void SetUp()
@@ -293,13 +292,7 @@ public class AINavigation : MonoBehaviour
             yield return new WaitForSeconds(.85f);
 
             //JUMP
-
             StartCoroutine(Jump());
-
-            /*athleteStatusReference.isJumping = true;
-            rb.isKinematic = false;*/
-
-            //rb.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
 
             anim.SetInteger("State", 5);
             yield return new WaitForSeconds(.65f);
@@ -307,7 +300,7 @@ public class AINavigation : MonoBehaviour
             
             athleteStatusReference.canServe = false;
             StartCoroutine(Serve());
-            yield return new WaitForSeconds(.65f);
+            yield return new WaitForSeconds(.7f);
             athleteStatusReference.isJumping = false;
 
 

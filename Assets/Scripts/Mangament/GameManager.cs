@@ -78,9 +78,12 @@ public class GameManager : MonoBehaviour
             
 
             athletes[1].GetComponent<AthleteStatus>().teamMate = athlete1AI;
+            GetComponent<AppearanceManager>().athletesSkinMesh[0] = GetComponent<AppearanceManager>().athlete1AISkin;
         }
 
         SetUp();
+        GetComponent<AppearanceManager>().AssignSkin();
+        GetComponent<AppearanceManager>().AssignOutfits();
     }
 
     void SetUp()
@@ -163,7 +166,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < athletes.Length; i++)
         {
-            athletes[i].GetComponent<AINavigation>().SetUp();
+            if(athletes[i].tag != "Player") { athletes[i].GetComponent<AINavigation>().SetUp(); }
         }
     }
 

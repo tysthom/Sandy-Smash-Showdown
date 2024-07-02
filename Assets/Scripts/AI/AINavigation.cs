@@ -84,7 +84,7 @@ public class AINavigation : MonoBehaviour
 
 
         athleteStatusReference = GetComponent<AthleteStatus>();
-        teamMate = athleteStatusReference.teamMate;
+        
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         anim = transform.GetChild(0).GetComponent<Animator>();
@@ -104,6 +104,7 @@ public class AINavigation : MonoBehaviour
         isIdle = true;
         primedToBlock = false;
         athleteStatusReference.Reset();
+        teamMate = athleteStatusReference.teamMate;
     }
 
     void Update()
@@ -567,7 +568,7 @@ public class AINavigation : MonoBehaviour
         athleteStatusReference.isBlocking = true;
 
         yield return new WaitUntil(() => Vector3.Distance(athleteStatusReference.servePoint.transform.position, ball.transform.position)
-            < 7 || athleteStatusReference.isBlocking == false);
+            < 8 || athleteStatusReference.isBlocking == false);
 
         anim.SetInteger("State", 7);
 

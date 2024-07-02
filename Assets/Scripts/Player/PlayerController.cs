@@ -462,7 +462,7 @@ public class PlayerController : MonoBehaviour
             {
                 athleteStatusReference.isSetting = true;
 
-                float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.75f, 1);
+                float forwardMultiplier = (Mathf.Abs(transform.position.z - athleteStatusReference.netBounds.transform.position.z) / 12) * Random.Range(.85f, 1.25f);
                 float horizontalMultiplier = (Mathf.Abs(transform.position.x - athleteStatusReference.teamMate.transform.position.x) / 17) * Random.Range(.85f, 1.25f);
 
                 ballMovementInstance.Force(moveDirection.x * gameManagerInstance.setHorizontalMultiplier * horizontalMultiplier,

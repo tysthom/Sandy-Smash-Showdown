@@ -1446,7 +1446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10d02996fa9f3d42b78b028092ff436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMode: 0
+  gameMode: 1
   athlete1AI: {fileID: 982926072}
   athletes:
   - {fileID: 1530529226}
@@ -1538,12 +1538,14 @@ MonoBehaviour:
   athlete4SkinIndex: 3
   maleTeam1Outfits:
   - {fileID: 7695900576956712696, guid: 317358cee930a08408d6da3ad74730fd, type: 3}
+  - {fileID: 882593902996318670, guid: d2c541baed0f35a459ace26f6338474a, type: 3}
   maleTeam2Outfits:
-  - {fileID: 8343778637786579980, guid: ff7ed8a2bfdc94d40aa25361e0237ee4, type: 3}
+  - {fileID: 5442306515557440621, guid: ff7ed8a2bfdc94d40aa25361e0237ee4, type: 3}
+  - {fileID: 7815273601419605758, guid: 1f442d666cda5254397f84933a9226cb, type: 3}
   athlete1OutfitIndex: 0
-  athlete2OutfitIndex: 0
+  athlete2OutfitIndex: 1
   athlete3OutfitIndex: 0
-  athlete4OutfitIndex: 0
+  athlete4OutfitIndex: 1
 --- !u!137 &833190228 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 2104146599324435442, guid: bd36082742f4b4d4c978132caa2676cf, type: 3}
@@ -2767,10 +2769,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3472775168118309162, guid: 2277380f04728ab4fa90fbf0e568f371, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 471b8112a6e159148892e535bc757d92, type: 2}
+    - target: {fileID: -2325082018695633755, guid: 2277380f04728ab4fa90fbf0e568f371, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ec10c702393e8f54592791a69499ca36, type: 2}
     - target: {fileID: 919132149155446097, guid: 2277380f04728ab4fa90fbf0e568f371, type: 3}
       propertyPath: m_Name
       value: Net
       objectReference: {fileID: 0}
+    - target: {fileID: 1904097232095724933, guid: 2277380f04728ab4fa90fbf0e568f371, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4827d9a17aee5d74cb0a8ecd1eb30725, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

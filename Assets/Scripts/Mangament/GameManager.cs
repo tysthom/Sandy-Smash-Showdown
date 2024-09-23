@@ -2,18 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.AI;
 
 public class GameManager : MonoBehaviour
 {
+    public bool gameInPlay;
     public enum GameMode { playerVAi, aiVAi };
     public GameMode gameMode;
 
-    public GameObject athlete1AI;   //AI model for Ai vs Ai mode only
+    public GameObject maleFriendlyAI;
+    public GameObject femaleFriendlyAI;
+    public GameObject maleEnemyAI;
+    public GameObject femaleEnemyAI;
     public GameObject[] athletes;
     
     public GameObject ball;
 
+    [Header("Cameras")]
+    public Camera gameCamera;
+    public Camera winnerCamera;
+
     [Header("Points")]
+    public int winningAmount = 7;
     public int team1Points = 0;
     public int team2Points = 0;
     public TMP_Text team1ScoreText, team2ScoreText, teamScoredText;
@@ -68,17 +78,47 @@ public class GameManager : MonoBehaviour
     [Header("Prediction Materials")]
     public Color playerColor;
 
+    [Header("Post Game Positions")]
+    public GameObject winnerPosition1;
+    public GameObject winnerPosition2;
+
     void Start()
     {
+        gameInPlay = true;
+        gameCamera.enabled = true;
+        winnerCamera.enabled = false;
+
         if (gameMode == GameMode.aiVAi)
         {
-            athlete1AI.SetActive(true);
-            athletes[0].SetActive(false);   //Deactivates player
-            athletes[0] = athlete1AI;
-            
+            /*athletes[0].GetComponent<PlayerController>().nextMoveHeaderText.text = "";
+            athletes[0].GetComponent<PlayerController>().nextMoveDynamicText.text = "";*/
 
-            athletes[1].GetComponent<AthleteStatus>().teamMate = athlete1AI;
-            GetComponent<AppearanceManager>().athletesSkinMesh[0] = GetComponent<AppearanceManager>().athlete1AISkin;
+            for(int i = 0; i < 4; i++)
+            {
+                GameObject ath = null;
+                switch (GetComponent<AppearanceManager>().athletesBodyType[i])  //Initiates proper AI type and body type
+                {    
+                    case 0:
+                        ath = Instantiate(i == 0 || i == 1 ? maleFriendlyAI : maleEnemyAI);
+                        ath.transform.position = new Vector3(5, 5, 0);
+                        athletes[i] = ath;
+                        break;
+                    case 1:
+                        ath = Instantiate(i == 0 || i == 1 ? femaleFriendlyAI : femaleEnemyAI);
+                        ath.transform.position = new Vector3(5, 5, 0);
+                        athletes[i] = ath;
+                        break;
+                }
+
+                foreach (Transform child in athletes[i].transform.GetChild(0))  //Used forst child, then uses child's children
+                {
+                    if (child.name == "Skin")
+                    {
+                        GetComponent<AppearanceManager>().athletesSkinMesh[i] = child.GetComponent<SkinnedMeshRenderer>();
+                        break;
+                    }
+                }           
+            }
         }
 
         SetUp();
@@ -88,8 +128,29 @@ public class GameManager : MonoBehaviour
 
     void SetUp()
     {
-        teamScoredText.text = "";
+        if (team1Points == 0 && team2Points == 0)
+        {
+            teamScoredText.text = "First to " + winningAmount + " Wins";
+        }
+        else if (team1Points == winningAmount-1 || team2Points == winningAmount-1)
+        {
+            teamScoredText.text = "Game Point";
+        }
+        else
+        {
+            teamScoredText.text = "";
+        }
+
         ball.GetComponent<BallMovement>().outOfBounds = false;
+        athletes[0].GetComponent<AthleteStatus>().teamMate = athletes[1];
+        athletes[1].GetComponent<AthleteStatus>().teamMate = athletes[0];
+        athletes[2].GetComponent<AthleteStatus>().teamMate = athletes[3];
+        athletes[3].GetComponent<AthleteStatus>().teamMate = athletes[2];
+        for(int i = 0; i < athletes.Length; i++)
+        {
+            athletes[i].GetComponent<AthleteStatus>().netBounds = (i <= 1 ? GameObject.Find("T1 Net Bounds") : 
+                GameObject.Find("T2 Net Bounds"));
+        }
 
         if (servingTeam == serveTeam.team1)
         {
@@ -99,10 +160,6 @@ public class GameManager : MonoBehaviour
                 if(athletes[0].tag == "Player")
                 {
                     athletes[0].transform.GetChild(0).GetComponent<Animator>().speed = 0;
-                }
-                else
-                {
-
                 }
                 
                 serverIndex = 0;
@@ -164,6 +221,7 @@ public class GameManager : MonoBehaviour
         ball.GetComponent<BallMovement>().beingServed = true;
         ball.GetComponent<BallMovement>().numOfHits = 5;
 
+
         for (int i = 0; i < athletes.Length; i++)
         {
             if(athletes[i].tag != "Player") { athletes[i].GetComponent<AINavigation>().SetUp(); }
@@ -177,7 +235,7 @@ public class GameManager : MonoBehaviour
         if (ball.GetComponent<BallMovement>().owner.GetComponent<AthleteStatus>().team == AthleteStatus.teams.team1)
         {
             //If ball lands on oppoisite court
-            if (!athletes[1].GetComponent<AINavigation>().MyCourt() && !ball.GetComponent<BallMovement>().outOfBounds)
+            if (!athletes[1].GetComponent<AINavigation>().LandMyCourt() && !ball.GetComponent<BallMovement>().outOfBounds)
             {
                 team1Points++;
                 teamScoredText.text = "IN";
@@ -190,7 +248,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             //If ball lands own court
-            if (athletes[1].GetComponent<AINavigation>().MyCourt() || ball.GetComponent<BallMovement>().outOfBounds)
+            if (athletes[1].GetComponent<AINavigation>().LandMyCourt() || ball.GetComponent<BallMovement>().outOfBounds)
             {
                 team2Points++;
                 if (!ball.GetComponent<BallMovement>().outOfBounds)
@@ -212,7 +270,7 @@ public class GameManager : MonoBehaviour
         else
         {
             //If ball lands on oppoisite court
-            if (!athletes[3].GetComponent<AINavigation>().MyCourt() && !ball.GetComponent<BallMovement>().outOfBounds)
+            if (!athletes[3].GetComponent<AINavigation>().LandMyCourt() && !ball.GetComponent<BallMovement>().outOfBounds)
             {
                 team2Points++;
                 teamScoredText.text = "IN";
@@ -224,7 +282,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             //If ball lands own court
-            if (athletes[3].GetComponent<AINavigation>().MyCourt() || ball.GetComponent<BallMovement>().outOfBounds)
+            if (athletes[3].GetComponent<AINavigation>().LandMyCourt() || ball.GetComponent<BallMovement>().outOfBounds)
             {
                 team1Points++;
                 if (!ball.GetComponent<BallMovement>().outOfBounds)
@@ -244,12 +302,25 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        team1ScoreText.text = "Team 1: " + team1Points;
-        team2ScoreText.text = "Team 2: " + team2Points;  
+        team1ScoreText.text = team1Points.ToString();
+        team2ScoreText.text = team2Points.ToString();  
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
 
-        SetUp();
+        if(team1Points == winningAmount)
+        {
+            teamScoredText.text = "Team 1 Wins!";
+            StartCoroutine(GameWon());
+        }
+        else if(team2Points == winningAmount)
+        {
+            teamScoredText.text = "Team 2 Wins!";
+            StartCoroutine(GameWon());
+        }
+        else
+        {
+            SetUp();
+        }
     }
 
     void SwitchServer()
@@ -273,7 +344,39 @@ public class GameManager : MonoBehaviour
                 serverIndex = 0;
             }
         }
+    }
 
-        
+    IEnumerator GameWon()
+    {
+        yield return new WaitForSeconds(2);
+
+        gameInPlay = false;
+        gameCamera.enabled = false;
+        winnerCamera.enabled = true;
+
+        Vector3 direction = -Vector3.forward;
+
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+        for (int i = 0; i < athletes.Length; i++)
+        {
+            athletes[i].GetComponent<AINavigation>().GameFinished(GetComponent<AppearanceManager>().athletesBodyType[i]);
+            athletes[i].transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1);
+        }
+
+        if (team1Points > team2Points)
+        {
+            athletes[0].transform.position = winnerPosition1.transform.position;
+            athletes[1].transform.position = winnerPosition2.transform.position;
+        }
+        else
+        {
+            athletes[2].transform.position = winnerPosition1.transform.position;
+            athletes[3].transform.position = winnerPosition2.transform.position;
+        }
+
+
+
+
     }
 }

@@ -28,6 +28,8 @@ public class AINavigation : MonoBehaviour
 
     private Vector3 jumpPosition; //Used to keep the x & z values of the AI's jump the same
 
+    private Coroutine rallyTimer;
+
     bool TeamOwnBall()
     {
         if (ballMovementInstance.owner.GetComponent<AthleteStatus>().team == athleteStatusReference.team)
@@ -52,7 +54,8 @@ public class AINavigation : MonoBehaviour
         }
     }
 
-    public bool MyCourt()
+
+    public bool PredictedMyCourt()
     {
         if (ballPredictionInstance.predictionMarker != null)
         {
@@ -75,8 +78,25 @@ public class AINavigation : MonoBehaviour
         }
     }
 
+    public bool LandMyCourt()
+    {
+        if (athleteStatusReference.team == AthleteStatus.teams.team1 && ball.transform.position.z < 0)
+        {
+            return true;
+        }
+        else if (athleteStatusReference.team == AthleteStatus.teams.team2 && ball.transform.position.z > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void Awake()
     {
+        gameManager = GameObject.Find("Game Manager");
         gameManagerInstance = gameManager.GetComponent<GameManager>();
         ball = gameManager.GetComponent<GameManager>().ball;
         ballMovementInstance = ball.GetComponent<BallMovement>();
@@ -101,10 +121,23 @@ public class AINavigation : MonoBehaviour
         agent.enabled = true;
         agent.isStopped = false;
         agent.destination = transform.position;
+        agent.speed = 8;
         isIdle = true;
         primedToBlock = false;
         athleteStatusReference.Reset();
         teamMate = athleteStatusReference.teamMate;
+        gameManager = GameObject.Find("Game Manager");
+
+        rallyTimer = StartCoroutine(RallyTimer());
+    }
+
+    private IEnumerator RallyTimer()
+    {
+        yield return new WaitForSeconds(15);
+        agent.speed -= 1;
+        rallyTimer = null;
+
+        Debug.Log("Rally Timer");
     }
 
     void Update()
@@ -137,10 +170,10 @@ public class AINavigation : MonoBehaviour
                 anim.SetInteger("State", 0);
             }
             
-            SetRotation();
+            if(ballMovementInstance.ballInPlay) SetRotation();
         }
 
-        if (!agent.enabled)
+        if (!agent.enabled && gameManagerInstance.gameInPlay)
         {
             CorrectRotation();
             KeepHorizontalPosition();
@@ -157,12 +190,12 @@ public class AINavigation : MonoBehaviour
             if ((!TeamOwnBall() && ballMovementInstance.numOfHits >= 3) || (TeamOwnBall() && (ballMovementInstance.numOfHits < 3)
                 || ballMovementInstance.mostRecentAttack == BallMovement.attacks.block)) //Allows AI to pick new landing position after a block
             {
-                if (athleteStatusReference.teamMate != null && !IOwnBall() && ((ballMovementInstance.owner == teamMate && MyCourt())
-                || (teamMate.GetComponent<AthleteStatus>().isJumping && MyCourt())
-                || (CloserThanTeamMate(ballPredictionInstance.predictionMarker) && ballMovementInstance.mostRecentAttack != BallMovement.attacks.spike && !athleteStatusReference.isJumping && MyCourt())
+                if (athleteStatusReference.teamMate != null && !IOwnBall() && ((ballMovementInstance.owner == teamMate && PredictedMyCourt())
+                || (teamMate.GetComponent<AthleteStatus>().isJumping && PredictedMyCourt())
+                || (CloserThanTeamMate(ballPredictionInstance.predictionMarker) && ballMovementInstance.mostRecentAttack != BallMovement.attacks.spike && !athleteStatusReference.isJumping && PredictedMyCourt())
                 || (ballMovementInstance.mostRecentAttack == BallMovement.attacks.spike && (!CloserThanTeamMate(ballMovementInstance.owner)
                     || (teamMate.tag == "Player") && !primedToBlock)) //Added in case player is not closer to spiker when ball is spiked, ensures AI still runs to recieve ball
-                || (ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && teamMate.GetComponent<AthleteStatus>().isJumping && MyCourt())))
+                || (ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && teamMate.GetComponent<AthleteStatus>().isJumping && PredictedMyCourt())))
                 {
                     //Run to recieve ball 
                     StartCoroutine(RunToSetUp());
@@ -176,8 +209,8 @@ public class AINavigation : MonoBehaviour
                     else
                     {
                         if ((IOwnBall() && ballMovementInstance.mostRecentAttack == BallMovement.attacks.set)
-                            || (!TeamOwnBall() && ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && !MyCourt())
-                            || (!IOwnBall() && TeamOwnBall() && ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && !MyCourt()))
+                            || (!TeamOwnBall() && ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && !PredictedMyCourt())
+                            || (!IOwnBall() && TeamOwnBall() && ballMovementInstance.mostRecentAttack == BallMovement.attacks.block && !PredictedMyCourt()))
                         {
                             StartCoroutine(RunToBack());
                         }
@@ -298,10 +331,11 @@ public class AINavigation : MonoBehaviour
             anim.SetInteger("State", 5);
             yield return new WaitForSeconds(.65f);
             anim.SetInteger("State", 6);
-            
+
+            gameManagerInstance.teamScoredText.text = "";
             athleteStatusReference.canServe = false;
             StartCoroutine(Serve());
-            yield return new WaitForSeconds(.7f);
+            yield return new WaitForSeconds(.8f);
             athleteStatusReference.isJumping = false;
 
 
@@ -609,6 +643,25 @@ public class AINavigation : MonoBehaviour
             athleteStatusReference.Reset();
             agent.destination = transform.position;
             agent.isStopped = true;
+        }
+
+        if(rallyTimer != null)
+        {
+            StopCoroutine(rallyTimer);
+        }
+    }
+
+    public void GameFinished(int bodyType)
+    {
+        agent.enabled = false;
+        switch (bodyType)
+        {
+            case 0:
+                anim.SetInteger("State", 10);
+                break;
+            case 1:
+                anim.SetInteger("State", 11);
+                break;
         }
     }
 }

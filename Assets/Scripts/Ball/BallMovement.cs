@@ -101,14 +101,15 @@ public class BallMovement : MonoBehaviour
             if (transform.position.y > collision.transform.position.y)
             {
                 //FLY IN ORIGINAL DIRECTION
+                float horizontalAmount = transform.position.x - collision.transform.position.x;
                 if (colliderParent.GetComponent<AthleteStatus>().team == AthleteStatus.teams.team1)
                 {
-                    Force(gameManagerInstance.blockHorizontalMultiplier, gameManagerInstance.blockHeightForce,
+                    Force(horizontalAmount * gameManagerInstance.blockHorizontalMultiplier, gameManagerInstance.blockHeightForce,
                         -gameManagerInstance.blockForwardForce, BallMovement.attacks.block, colliderParent);
                 }
                 else
                 {
-                    Force(gameManagerInstance.blockHorizontalMultiplier, gameManagerInstance.blockHeightForce,
+                    Force(horizontalAmount * gameManagerInstance.blockHorizontalMultiplier, gameManagerInstance.blockHeightForce,
                         gameManagerInstance.blockForwardForce, BallMovement.attacks.block, colliderParent);
                 }
             }
@@ -136,7 +137,7 @@ public class BallMovement : MonoBehaviour
 
     bool OutOfBounds()
     {
-        if(transform.position.x < -9 || transform.position.x > 9 || transform.position.z > 15 || transform.position.z < -15)
+        if((transform.position.x < -9 || transform.position.x > 9 || transform.position.z > 15 || transform.position.z < -15) && ballInPlay)
         {
             return true;
         }

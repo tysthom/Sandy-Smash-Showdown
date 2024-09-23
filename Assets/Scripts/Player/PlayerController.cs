@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     GameObject ball;
     Rigidbody rb;
     Animator anim;
+    public TMP_Text nextMoveHeaderText;
     public TMP_Text nextMoveDynamicText;
 
     [Header("Script References")]

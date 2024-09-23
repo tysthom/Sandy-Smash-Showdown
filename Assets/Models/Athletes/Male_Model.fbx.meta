@@ -19,7 +19,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: "Avatar Rig Configuration mis-match. Inbetween bone rotation
       in configuration does not match rotation in animation file:\n\t'Elbow.L' :
-      rotation error = 8.841170 deg\n\t'Elbow.R' : rotation error = 8.841151 deg\n"
+      rotation error = 8.841170 deg\n\t'Elbow.R' : rotation error = 8.841109 deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Armature|Idle' has import animation warnings
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
@@ -288,6 +288,35 @@ ModelImporter:
       internalID: 4645502260034852129
       firstFrame: 0
       lastFrame: 14
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Victory Pose
+      takeName: Armature|Victory Pose
+      internalID: 4173222962004978184
+      firstFrame: 0
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

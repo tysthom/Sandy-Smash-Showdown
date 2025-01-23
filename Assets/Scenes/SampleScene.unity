@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2063,6 +2063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInPlay: 0
   gameMode: 1
+  player: {fileID: 1530529226}
   maleFriendlyAI: {fileID: 6502664583195282143, guid: 3528d1cc28871234fa67fad4c39219f9, type: 3}
   femaleFriendlyAI: {fileID: 7293170488974244052, guid: 26cbce8310866a84d86229e9277fbc65, type: 3}
   maleEnemyAI: {fileID: 2042339698000628277, guid: bd36082742f4b4d4c978132caa2676cf, type: 3}
@@ -2157,7 +2158,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 04829bee14842df4abb3b6cf10343efc, type: 2}
   - {fileID: 2100000, guid: 1ac5183956375e04e89cadfd695b53ee, type: 2}
   - {fileID: 2100000, guid: fb354d32feae5314197db80ebcdba372, type: 2}
-  athlete1SkinIndex: 0
+  athlete1SkinIndex: 2
   athlete2SkinIndex: 4
   athlete3SkinIndex: 1
   athlete4SkinIndex: 3

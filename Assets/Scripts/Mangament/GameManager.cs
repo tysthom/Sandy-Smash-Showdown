@@ -121,6 +121,48 @@ public class GameManager : MonoBehaviour
                 }           
             }
         }
+        else
+        {
+            //Needs proper integration
+            player.SetActive(true);
+            athletes[0] = player;
+            foreach (Transform child in athletes[0].transform.GetChild(0))
+            {
+                if (child.name == "Skin")
+                {
+                    GetComponent<AppearanceManager>().athletesSkinMesh[0] = child.GetComponent<SkinnedMeshRenderer>();
+                    break;
+                }
+            }
+
+            for (int i = 1; i < 4; i++)
+            {
+                GameObject ath = null;
+                switch (GetComponent<AppearanceManager>().athletesBodyType[i])  //Initiates proper AI type and body type
+                {
+                    case 0:
+                        ath = Instantiate(i == 0 || i == 1 ? maleFriendlyAI : maleEnemyAI);
+                        ath.transform.position = new Vector3(5, 5, 0);
+                        athletes[i] = ath;
+                        break;
+                    case 1:
+                        ath = Instantiate(i == 0 || i == 1 ? femaleFriendlyAI : femaleEnemyAI);
+                        ath.transform.position = new Vector3(5, 5, 0);
+                        athletes[i] = ath;
+                        break;
+                }
+
+                foreach (Transform child in athletes[i].transform.GetChild(0))  //Used forst child, then uses child's children
+                {
+                    if (child.name == "Skin")
+                    {
+                        GetComponent<AppearanceManager>().athletesSkinMesh[i] = child.GetComponent<SkinnedMeshRenderer>();
+                        break;
+                    }
+                }
+            }
+
+        }
 
         SetUp();
         GetComponent<AppearanceManager>().AssignSkin();
@@ -369,15 +411,17 @@ public class GameManager : MonoBehaviour
         {
             athletes[0].transform.position = winnerPosition1.transform.position;
             athletes[1].transform.position = winnerPosition2.transform.position;
+
+            athletes[2].transform.position = new Vector3(500,500, 500);
+            athletes[3].transform.position = new Vector3(500, 500, 500);
         }
         else
         {
             athletes[2].transform.position = winnerPosition1.transform.position;
             athletes[3].transform.position = winnerPosition2.transform.position;
+
+            athletes[0].transform.position = new Vector3(500, 500, 500);
+            athletes[1].transform.position = new Vector3(500, 500, 500);
         }
-
-
-
-
     }
 }

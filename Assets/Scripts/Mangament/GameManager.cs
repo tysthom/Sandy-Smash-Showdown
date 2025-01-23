@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public enum GameMode { playerVAi, aiVAi };
     public GameMode gameMode;
 
+    public GameObject player;
     public GameObject maleFriendlyAI;
     public GameObject femaleFriendlyAI;
     public GameObject maleEnemyAI;

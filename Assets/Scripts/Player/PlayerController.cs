@@ -94,11 +94,17 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (gameManagerInstance.gameInPlay == false)
+        {
+            return;
+        }
+
         if(ballMovementInstance.ballInPlay == false)
         {
             ResetHitConstraints();
             LockRotation();
             nextMoveDynamicText.text = "";
+            nextMoveHeaderText.text = "";
         }
 
         athleteStatusReference.lockedIn = LockedIn();
@@ -242,11 +248,13 @@ public class PlayerController : MonoBehaviour
             {
                 nextMoveDynamicText.text = "SET";
             }
+            nextMoveHeaderText.text = "Next Move:";
         }
         //Teammate bumped ball
         else if(ballMovementInstance.mostRecentAttack == BallMovement.attacks.bump && ballMovementInstance.owner == athleteStatusReference.teamMate)
         {
             nextMoveDynamicText.text = "SET";
+            nextMoveHeaderText.text = "Next Move:";
             ballPredictionInstance.predictionMarker.GetComponent<Renderer>().material.color = gameManagerInstance.playerColor;
             canSet = true;
         }
@@ -254,6 +262,7 @@ public class PlayerController : MonoBehaviour
         else if (ballMovementInstance.mostRecentAttack == BallMovement.attacks.set && ballMovementInstance.owner == athleteStatusReference.teamMate)
         {
             nextMoveDynamicText.text = "SPIKE";
+            nextMoveHeaderText.text = "Next Move:";
             ballPredictionInstance.predictionMarker.GetComponent<Renderer>().material.color = gameManagerInstance.playerColor;
             canSpike = true;
         }
@@ -268,6 +277,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 nextMoveDynamicText.text = "BUMP/DIG";
+                nextMoveHeaderText.text = "Next Move:";
                 ballPredictionInstance.predictionMarker.GetComponent<Renderer>().material.color = gameManagerInstance.playerColor;
                 canDig = canBump = true;
             }
@@ -286,6 +296,7 @@ public class PlayerController : MonoBehaviour
             {
                 nextMoveDynamicText.text = "BLOCK";
             }
+            nextMoveHeaderText.text = "Next Move:";
         }
         //Opponents spiked ball
         else if (ballMovementInstance.mostRecentAttack == BallMovement.attacks.spike && ballMovementInstance.owner.GetComponent<AthleteStatus>().team != athleteStatusReference.team)
@@ -302,10 +313,12 @@ public class PlayerController : MonoBehaviour
             {
                 nextMoveDynamicText.text = "BLOCK";
             }
+            nextMoveHeaderText.text = "Next Move:";
         }
         else
         {
             nextMoveDynamicText.text = "";
+            nextMoveHeaderText.text = "";
         }
     }
 
@@ -371,6 +384,7 @@ public class PlayerController : MonoBehaviour
 
         ballMovementInstance.Force(moveDirection.x * gameManagerInstance.serveHorizontalMultiplier, gameManagerInstance.serveHeightForce,
             gameManagerInstance.serveForwardForce, BallMovement.attacks.serve, gameObject);
+        gameManagerInstance.teamScoredText.text = "";
 
         yield return new WaitForSeconds(.5f);
         athleteStatusReference.isServing = false;
@@ -534,5 +548,18 @@ public class PlayerController : MonoBehaviour
         athleteStatusReference.isRecovering = true;
         yield return new WaitForSeconds(recoveryTime);
         athleteStatusReference.isRecovering = false;
+    }
+
+    public void GameFinished(int bodyType)
+    {
+        switch (bodyType)
+        {
+            case 0:
+                anim.SetInteger("State", 10);
+                break;
+            case 1:
+                anim.SetInteger("State", 11);
+                break;
+        }
     }
 }

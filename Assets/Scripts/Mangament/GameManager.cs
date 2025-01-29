@@ -396,6 +396,7 @@ public class GameManager : MonoBehaviour
         gameInPlay = false;
         gameCamera.enabled = false;
         winnerCamera.enabled = true;
+        teamScoredText.text = "";
 
         Vector3 direction = -Vector3.forward;
 
@@ -403,7 +404,16 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < athletes.Length; i++)
         {
-            athletes[i].GetComponent<AINavigation>().GameFinished(GetComponent<AppearanceManager>().athletesBodyType[i]);
+            if (athletes[i].tag == "Player")
+            {
+                athletes[i].GetComponent<PlayerController>().GameFinished(GetComponent<AppearanceManager>().athletesBodyType[i]);
+            }
+            else
+            {
+                athletes[i].GetComponent<AINavigation>().GameFinished(GetComponent<AppearanceManager>().athletesBodyType[i]);
+
+            }
+            
             athletes[i].transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1);
         }
 

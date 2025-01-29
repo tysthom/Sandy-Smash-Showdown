@@ -2062,7 +2062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInPlay: 0
-  gameMode: 1
+  gameMode: 0
   player: {fileID: 1530529226}
   maleFriendlyAI: {fileID: 6502664583195282143, guid: 3528d1cc28871234fa67fad4c39219f9, type: 3}
   femaleFriendlyAI: {fileID: 7293170488974244052, guid: 26cbce8310866a84d86229e9277fbc65, type: 3}
@@ -2076,7 +2076,7 @@ MonoBehaviour:
   ball: {fileID: 686708874}
   gameCamera: {fileID: 963194227}
   winnerCamera: {fileID: 527301493}
-  winningAmount: 1
+  winningAmount: 3
   team1Points: 0
   team2Points: 0
   team1ScoreText: {fileID: 887679191}
@@ -2174,9 +2174,9 @@ MonoBehaviour:
   femaleTeam2Outfits:
   - {fileID: 1963810822125380391, guid: ba83ed547526fba4bb98a7cc4ad44951, type: 3}
   - {fileID: 0}
-  athlete1OutfitIndex: 1
+  athlete1OutfitIndex: 0
   athlete2OutfitIndex: 0
-  athlete3OutfitIndex: 0
+  athlete3OutfitIndex: 1
   athlete4OutfitIndex: 0
 --- !u!1 &887679189
 GameObject:
@@ -3020,7 +3020,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -284}
+  m_AnchoredPosition: {x: 0, y: -348}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1238857362
@@ -3208,7 +3208,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Next Move:'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4446,7 +4446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Move Here
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

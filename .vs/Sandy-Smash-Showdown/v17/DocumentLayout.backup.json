@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\assets\\scripts\\ai\\ainavigation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ai\\ainavigation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|c:\\users\\tyson\\documents\\unity\\sandy-smash-showdown\\assets\\scripts\\mangament\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mangament\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\assets\\scripts\\mangament\\appearancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mangament\\appearancemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{39196AF2-8783-177D-AFF7-3DE8B6B1B751}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,12 +31,49 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AINavigation.cs",
+              "DocumentMoniker": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\AI\\AINavigation.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\AI\\AINavigation.cs",
+              "ToolTip": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\AI\\AINavigation.cs",
+              "RelativeToolTip": "Assets\\Scripts\\AI\\AINavigation.cs",
+              "ViewState": "AgIAAH8CAAAAAAAAAAAEwJMCAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-23T15:18:22.395Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\Player\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player\\PlayerController.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-23T15:13:06.527Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppearanceManager.cs",
+              "DocumentMoniker": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\Mangament\\AppearanceManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Mangament\\AppearanceManager.cs",
+              "ToolTip": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\Mangament\\AppearanceManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Mangament\\AppearanceManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-23T15:11:26.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "GameManager.cs",
               "DocumentMoniker": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\Mangament\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Mangament\\GameManager.cs",
               "ToolTip": "C:\\Users\\tyson\\Documents\\Unity\\Sandy-Smash-Showdown\\Assets\\Scripts\\Mangament\\GameManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\Mangament\\GameManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAIIBAAAAAAAAAAAEwKcBAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T14:50:51.849Z",
               "EditorCaption": ""

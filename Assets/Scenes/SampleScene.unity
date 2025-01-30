@@ -2062,7 +2062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameInPlay: 0
-  gameMode: 0
+  gameMode: 1
   player: {fileID: 1530529226}
   maleFriendlyAI: {fileID: 6502664583195282143, guid: 3528d1cc28871234fa67fad4c39219f9, type: 3}
   femaleFriendlyAI: {fileID: 7293170488974244052, guid: 26cbce8310866a84d86229e9277fbc65, type: 3}
@@ -2167,16 +2167,16 @@ MonoBehaviour:
   - {fileID: 882593902996318670, guid: d2c541baed0f35a459ace26f6338474a, type: 3}
   femaleTeam1Outfits:
   - {fileID: 7491015236654228882, guid: 1af62927906a6a14190c16e37f9b1427, type: 3}
-  - {fileID: 0}
+  - {fileID: 8931672757009132164, guid: b161ab54c6fae464395053e9cc6aa6dc, type: 3}
   maleTeam2Outfits:
   - {fileID: 5442306515557440621, guid: ff7ed8a2bfdc94d40aa25361e0237ee4, type: 3}
   - {fileID: 7815273601419605758, guid: 1f442d666cda5254397f84933a9226cb, type: 3}
   femaleTeam2Outfits:
   - {fileID: 1963810822125380391, guid: ba83ed547526fba4bb98a7cc4ad44951, type: 3}
-  - {fileID: 0}
-  athlete1OutfitIndex: 0
-  athlete2OutfitIndex: 0
-  athlete3OutfitIndex: 1
+  - {fileID: 3247185922576818346, guid: f76e60123fb62984b8e9b88fc6c6bf03, type: 3}
+  athlete1OutfitIndex: 1
+  athlete2OutfitIndex: 1
+  athlete3OutfitIndex: 0
   athlete4OutfitIndex: 0
 --- !u!1 &887679189
 GameObject:

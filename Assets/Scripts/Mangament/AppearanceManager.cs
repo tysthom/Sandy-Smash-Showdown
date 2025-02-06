@@ -29,6 +29,15 @@ public class AppearanceManager : MonoBehaviour
     public int athlete3OutfitIndex;
     public int athlete4OutfitIndex;
 
+    [Header("Hair")]
+    public GameObject[] maleHair;
+    public GameObject[] femaleHair;
+
+    public int athlete1HairIndex;
+    public int athlete2HairIndex;
+    public int athlete3HairIndex;
+    public int athlete4HairIndex;
+
     public void AssignSkin()
     {
         athletesSkinMesh[0].material.color = skinMaterials[athlete1SkinIndex].color;
@@ -129,6 +138,27 @@ public class AppearanceManager : MonoBehaviour
             if (holdAthleteOutfit[i].GetComponent<Cloth>() != null)
             {
                 holdAthleteOutfit[i].GetComponent<Cloth>().enabled = true;
+            }
+        }
+    }
+
+    public void AssignHair()
+    {
+        for(int i = 0; i < GetComponent<GameManager>().athletes.Length; i += 1)
+        {
+            GameObject hairHolder;
+
+            for (int j = 0; j < GetComponent<GameManager>().athletes[i].transform.childCount; i++)  //Traverse thoguh gameObject to hairHolder object
+            {
+                if(GetComponent<GameManager>().athletes[i].transform.GetChild(i).gameObject.name == "HairHolder")
+                {
+                    hairHolder = GetComponent<GameManager>().athletes[i].transform.GetChild(i).gameObject;  //Assign hairholder variable to gameObject
+
+                    if(athletesBodyType[0] == 0)    //Assigns male hair type 
+                    {
+                        GameObject designatedHair = Instantiate(maleHair[athlete1HairIndex], hairHolder.transform); //Instantiates selected hair
+                    }  
+                }
             }
         }
     }

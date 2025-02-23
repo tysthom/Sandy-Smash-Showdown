@@ -167,6 +167,7 @@ public class GameManager : MonoBehaviour
         SetUp();
         GetComponent<AppearanceManager>().AssignSkin();
         GetComponent<AppearanceManager>().AssignOutfits();
+        GetComponent<AppearanceManager>().AssignHair();
     }
 
     void SetUp()

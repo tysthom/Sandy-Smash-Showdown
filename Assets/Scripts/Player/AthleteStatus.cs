@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AthleteStatus : MonoBehaviour
 {
+    public GameObject hairHolder;
+
     public enum teams {team1, team2};
     public teams team;
     public enum roles { settingUp, recieving, observing, engaging};

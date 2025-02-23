@@ -288,7 +288,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6791849449542766678}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -6.0584574, y: 6.6354103, z: -3.7686625}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
@@ -387,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d88bb8d0f9e6a4484393d8e1d19197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hairHolder: {fileID: 7659364977285349576}
   team: 1
   role: 0
   servePoint: {fileID: 7728375282266560345}
@@ -575,5 +576,10 @@ PrefabInstance:
 --- !u!4 &6247545410573844471 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8fcd11b2551560f40aba3adacb17537f, type: 3}
+  m_PrefabInstance: {fileID: 5852713650227075100}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7659364977285349576 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4283631141769189588, guid: 8fcd11b2551560f40aba3adacb17537f, type: 3}
   m_PrefabInstance: {fileID: 5852713650227075100}
   m_PrefabAsset: {fileID: 0}

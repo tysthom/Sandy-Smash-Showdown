@@ -33,10 +33,7 @@ public class AppearanceManager : MonoBehaviour
     public GameObject[] maleHair;
     public GameObject[] femaleHair;
 
-    public int athlete1HairIndex;
-    public int athlete2HairIndex;
-    public int athlete3HairIndex;
-    public int athlete4HairIndex;
+    public int[] athleteHairIndices;
 
     public void AssignSkin()
     {
@@ -146,18 +143,29 @@ public class AppearanceManager : MonoBehaviour
     {
         for(int i = 0; i < GetComponent<GameManager>().athletes.Length; i += 1)
         {
-            GameObject hairHolder;
-
-            for (int j = 0; j < GetComponent<GameManager>().athletes[i].transform.childCount; i++)  //Traverse thoguh gameObject to hairHolder object
+            int hairIndex = athleteHairIndices[i];
+            if (athleteHairIndices[i] == 0)
             {
-                if(GetComponent<GameManager>().athletes[i].transform.GetChild(i).gameObject.name == "HairHolder")
-                {
-                    hairHolder = GetComponent<GameManager>().athletes[i].transform.GetChild(i).gameObject;  //Assign hairholder variable to gameObject
+                //Bald
+                
+            }
+            else
+            {
+                GameObject hairHolder;
 
-                    if(athletesBodyType[0] == 0)    //Assigns male hair type 
-                    {
-                        GameObject designatedHair = Instantiate(maleHair[athlete1HairIndex], hairHolder.transform); //Instantiates selected hair
-                    }  
+                hairHolder = GetComponent<GameManager>().athletes[i].GetComponent<AthleteStatus>().hairHolder;  //Assign hairholder variable to gameObject    
+                if (athletesBodyType[i] == 0)    //Assigns male hair type 
+                {
+                    GameObject designatedHair = Instantiate(maleHair[hairIndex], hairHolder.transform); //Instantiates selected hair
+                    designatedHair.transform.localPosition = Vector3.zero;
+                    designatedHair.transform.localRotation = Quaternion.identity;
+                }
+                else
+                {
+
+                    GameObject designatedHair = Instantiate(femaleHair[hairIndex], hairHolder.transform); //Instantiates selected hair
+                    designatedHair.transform.localPosition = Vector3.zero;
+                    designatedHair.transform.localRotation = Quaternion.identity;
                 }
             }
         }

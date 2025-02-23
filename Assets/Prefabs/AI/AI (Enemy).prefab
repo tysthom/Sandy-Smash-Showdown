@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d88bb8d0f9e6a4484393d8e1d19197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hairHolder: {fileID: 405012417766158056}
   team: 1
   role: 0
   servePoint: {fileID: 8740586851316531958}
@@ -568,6 +569,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5490dca238c6bfa489c9fe8137dc79e3, type: 3}
+--- !u!1 &405012417766158056 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4283631141769189588, guid: 5490dca238c6bfa489c9fe8137dc79e3, type: 3}
+  m_PrefabInstance: {fileID: 4534112681416128060}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4136237448723927511 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5490dca238c6bfa489c9fe8137dc79e3, type: 3}

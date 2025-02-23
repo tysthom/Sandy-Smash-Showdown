@@ -2076,7 +2076,7 @@ MonoBehaviour:
   ball: {fileID: 686708874}
   gameCamera: {fileID: 963194227}
   winnerCamera: {fileID: 527301493}
-  winningAmount: 3
+  winningAmount: 1
   team1Points: 0
   team2Points: 0
   team1ScoreText: {fileID: 887679191}
@@ -2178,6 +2178,13 @@ MonoBehaviour:
   athlete2OutfitIndex: 1
   athlete3OutfitIndex: 0
   athlete4OutfitIndex: 0
+  maleHair:
+  - {fileID: 0}
+  - {fileID: 1487863925252831277, guid: 35f8e3ccb4512ef4daa553e00f2ffd17, type: 3}
+  femaleHair:
+  - {fileID: 0}
+  - {fileID: 5339494123782646938, guid: 7740675961b2b3541bda3454c32d1925, type: 3}
+  athleteHairIndices: 01000000010000000100000001000000
 --- !u!1 &887679189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3802,6 +3809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d88bb8d0f9e6a4484393d8e1d19197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hairHolder: {fileID: 0}
   team: 0
   role: 0
   servePoint: {fileID: 326367363}

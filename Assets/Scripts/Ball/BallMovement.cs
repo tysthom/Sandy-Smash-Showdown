@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 public class BallMovement : MonoBehaviour
@@ -41,27 +42,31 @@ public class BallMovement : MonoBehaviour
         {
             outOfBounds = true;
             StopGame();
+            rb.AddForce(new Vector3(0, -10, 0));    //Ensures ball doesn't fly back in air after AI late hit
         }
     }
 
     public void Force(float hor, float ver, float frwd, attacks recent, GameObject newOwner)
     {
-        rb.velocity = Vector3.zero;
-        mostRecentAttack = recent;
+        if (ballInPlay)
+        {
+            rb.velocity = Vector3.zero;
+            mostRecentAttack = recent;
 
-        if (numOfHits >= 3 && !(mostRecentAttack == attacks.block || mostRecentAttack == attacks.toss || mostRecentAttack == attacks.serve))
-        {
-            numOfHits = 1;
-        }
-        else
-        {
-            numOfHits++;
-        }
-        owner = newOwner;
-        rb.AddForce(new Vector3(hor, ver, frwd) * gameManagerInstance.hitMultiplier);
-        if (mostRecentAttack != attacks.toss)
-        {
-            StartCoroutine(Predict());
+            if (numOfHits >= 3 && !(mostRecentAttack == attacks.block || mostRecentAttack == attacks.toss || mostRecentAttack == attacks.serve))
+            {
+                numOfHits = 1;
+            }
+            else
+            {
+                numOfHits++;
+            }
+            owner = newOwner;
+            rb.AddForce(new Vector3(hor, ver, frwd) * gameManagerInstance.hitMultiplier);
+            if (mostRecentAttack != attacks.toss)
+            {
+                StartCoroutine(Predict());
+            }
         }
     }
 

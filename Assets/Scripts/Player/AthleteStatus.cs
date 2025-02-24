@@ -5,6 +5,7 @@ using UnityEngine;
 public class AthleteStatus : MonoBehaviour
 {
     public GameObject hairHolder;
+    public GameObject hair;
 
     public enum teams {team1, team2};
     public teams team;

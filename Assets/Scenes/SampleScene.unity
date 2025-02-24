@@ -2076,7 +2076,7 @@ MonoBehaviour:
   ball: {fileID: 686708874}
   gameCamera: {fileID: 963194227}
   winnerCamera: {fileID: 527301493}
-  winningAmount: 1
+  winningAmount: 3
   team1Points: 0
   team2Points: 0
   team1ScoreText: {fileID: 887679191}
@@ -2090,7 +2090,7 @@ MonoBehaviour:
   - {fileID: 601650005}
   - {fileID: 1797334600}
   serverIndex: 0
-  servingTeam: 0
+  servingTeam: 1
   servingAthlete: 0
   hitRange: 2.5
   hitMultiplier: 7
@@ -2158,10 +2158,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 04829bee14842df4abb3b6cf10343efc, type: 2}
   - {fileID: 2100000, guid: 1ac5183956375e04e89cadfd695b53ee, type: 2}
   - {fileID: 2100000, guid: fb354d32feae5314197db80ebcdba372, type: 2}
-  athlete1SkinIndex: 2
-  athlete2SkinIndex: 4
-  athlete3SkinIndex: 1
-  athlete4SkinIndex: 3
+  athlete1SkinIndex: 3
+  athlete2SkinIndex: 2
+  athlete3SkinIndex: 4
+  athlete4SkinIndex: 1
   maleTeam1Outfits:
   - {fileID: 7695900576956712696, guid: 317358cee930a08408d6da3ad74730fd, type: 3}
   - {fileID: 882593902996318670, guid: d2c541baed0f35a459ace26f6338474a, type: 3}
@@ -2174,17 +2174,27 @@ MonoBehaviour:
   femaleTeam2Outfits:
   - {fileID: 1963810822125380391, guid: ba83ed547526fba4bb98a7cc4ad44951, type: 3}
   - {fileID: 3247185922576818346, guid: f76e60123fb62984b8e9b88fc6c6bf03, type: 3}
-  athlete1OutfitIndex: 1
-  athlete2OutfitIndex: 1
-  athlete3OutfitIndex: 0
-  athlete4OutfitIndex: 0
+  athlete1OutfitIndex: 0
+  athlete2OutfitIndex: 0
+  athlete3OutfitIndex: 1
+  athlete4OutfitIndex: 1
   maleHair:
   - {fileID: 0}
   - {fileID: 1487863925252831277, guid: 35f8e3ccb4512ef4daa553e00f2ffd17, type: 3}
   femaleHair:
   - {fileID: 0}
   - {fileID: 5339494123782646938, guid: 7740675961b2b3541bda3454c32d1925, type: 3}
-  athleteHairIndices: 01000000010000000100000001000000
+  athleteHairStyleIndices: 01000000010000000100000001000000
+  athleteHairColor:
+  - {fileID: 2100000, guid: 11abb89c345592e4da026a694deed39a, type: 2}
+  - {fileID: 2100000, guid: 1e5e678d9421b9844b58d6a5a4b58876, type: 2}
+  - {fileID: 2100000, guid: 60a35f7461e3a1f4ba2331258a11198b, type: 2}
+  - {fileID: 2100000, guid: 4598d9d6c80b6c3419fae98cc6682633, type: 2}
+  - {fileID: 2100000, guid: 3084061c047ddb1498734eeb5f462f65, type: 2}
+  - {fileID: 2100000, guid: 2f90cf1ce4174724691affe436326c25, type: 2}
+  - {fileID: 2100000, guid: e7862a6746596e4419260c711e8287e0, type: 2}
+  - {fileID: 2100000, guid: 37610f3ecdbc68b4aa3c502cf8a0cc53, type: 2}
+  athleteHairColorIndices: 07000000000000000700000000000000
 --- !u!1 &887679189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3810,6 +3820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hairHolder: {fileID: 0}
+  hair: {fileID: 0}
   team: 0
   role: 0
   servePoint: {fileID: 326367363}

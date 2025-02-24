@@ -32,8 +32,11 @@ public class AppearanceManager : MonoBehaviour
     [Header("Hair")]
     public GameObject[] maleHair;
     public GameObject[] femaleHair;
+    public int[] athleteHairStyleIndices;
 
-    public int[] athleteHairIndices;
+    public Material[] athleteHairColor;
+    public int[] athleteHairColorIndices;
+
 
     public void AssignSkin()
     {
@@ -143,8 +146,8 @@ public class AppearanceManager : MonoBehaviour
     {
         for(int i = 0; i < GetComponent<GameManager>().athletes.Length; i += 1)
         {
-            int hairIndex = athleteHairIndices[i];
-            if (athleteHairIndices[i] == 0)
+            int hairIndex = athleteHairStyleIndices[i];
+            if (athleteHairStyleIndices[i] == 0)
             {
                 //Bald
                 
@@ -157,16 +160,28 @@ public class AppearanceManager : MonoBehaviour
                 if (athletesBodyType[i] == 0)    //Assigns male hair type 
                 {
                     GameObject designatedHair = Instantiate(maleHair[hairIndex], hairHolder.transform); //Instantiates selected hair
+                    GetComponent<GameManager>().athletes[i].GetComponent<AthleteStatus>().hair = designatedHair;
                     designatedHair.transform.localPosition = Vector3.zero;
                     designatedHair.transform.localRotation = Quaternion.identity;
                 }
                 else
                 {
-
                     GameObject designatedHair = Instantiate(femaleHair[hairIndex], hairHolder.transform); //Instantiates selected hair
+                    GetComponent<GameManager>().athletes[i].GetComponent<AthleteStatus>().hair = designatedHair;
                     designatedHair.transform.localPosition = Vector3.zero;
                     designatedHair.transform.localRotation = Quaternion.identity;
                 }
+            }
+        }
+    }
+
+    public void AssignHairColor()
+    {
+        for (int i = 0; i < GetComponent<GameManager>().athletes.Length; i += 1)
+        {
+            if (athleteHairStyleIndices[i] != 0) 
+            {
+                GetComponent<GameManager>().athletes[i].GetComponent<AthleteStatus>().hair.GetComponent<MeshRenderer>().material = athleteHairColor[athleteHairColorIndices[i]];
             }
         }
     }

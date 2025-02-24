@@ -138,6 +138,7 @@ public class AINavigation : MonoBehaviour
         rallyTimer = null;
 
         Debug.Log("Rally Timer");
+        rallyTimer = StartCoroutine(RallyTimer());
     }
 
     void Update()
@@ -567,14 +568,13 @@ public class AINavigation : MonoBehaviour
         {
             anim.SetInteger("State", 6);
 
-            float posXBound = 8.1f;
+            float posXBound = 9f;
             float negXBound = -posXBound;
 
             float posHorMultiplier = (posXBound - transform.position.x);
 
             float negHorMultiplier = (negXBound - transform.position.x);
 
-            /*float horizontalMultiplier = Random.Range(0, transform.position.x) * -.35f; //Negative to hit the other way*/
             float horizontalMultiplier = Random.Range(negHorMultiplier, posHorMultiplier) * .15f;
 
             if (athleteStatusReference.team == AthleteStatus.teams.team1)
